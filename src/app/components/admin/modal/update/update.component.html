@@ -1,0 +1,47 @@
+<div class="background-modal animated fadeIn" [ngClass]="hidden">
+
+<div class="modal" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos de producto</h5>
+          <button type="button" class="close" (click)="close()"  data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="producto">
+          <form class="form" #f="ngForm" (ngSubmit)="actualizar(f)">
+            <label for="">id: </label>
+            <input [(ngModel)]="producto.id" type="text" class="form-control" readonly name="id" for="" id="inputId">
+            <label for="inputModelo" class="">Modelo</label>
+            <select  [(ngModel)]="producto.modelo" name="modelo" class="form-control" required >
+              <option value="cosmeticos">Cosmeticos</option>
+              <option value="convencional">Convencional</option>
+              <option value="de contacto">De Contacto</option>
+            </select>
+
+            <label for="inputNombre" class="">Nombre</label>
+            <input  type="text" [(ngModel)]="producto.nombre" name="nombre" id="inputNombre" class="form-control" placeholder="Ingrese el nombre" required>
+
+            <label for="inputMarca" class="">Marca o Fabricante</label>
+            <input type="text" [(ngModel)]="producto.marca" name="marca" id="inputMarca" class="form-control" placeholder="Ingrese la Marca" required>
+
+            <label for="inputDescripcion" class="">Descripcion</label>
+            <textarea class="form-control" [(ngModel)]="producto.descripcion" name="descripcion" id="inputDescripcion" rows="3"></textarea>
+
+            <label for="inputPrecio" class="">Precio (dolares)</label>
+            <input type="number" [(ngModel)]="producto.precio" name="precio" id="inputPrecio" class="form-control" placeholder="0.00" min="0" max="100000" required>
+
+            <label for="inputStock" class="">Stock</label>
+            <input type="number" [(ngModel)]="producto.stock" name="stock" id="inputStock" class="form-control" placeholder="0" min="0" max="1000000" required>
+          <div class="modal-footer">
+          <button type="button" (click)="close()"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

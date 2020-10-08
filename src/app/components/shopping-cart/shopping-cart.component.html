@@ -1,0 +1,202 @@
+<app-navbar></app-navbar>
+<div id="list_food_home" class="container">
+
+    <h1 style="text-align: center; margin: 30px;">¡ TENEMOS PARA TI LA MEJOR CALIDAD EN LENTES !</h1>
+
+    <div class="row" id="prinf_food">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-4" *ngFor="let lente of lentes">
+            <div class="produre_box bg-white shadow-sm">
+                <div class="image_box">
+                    <img src="/assets/image/lente1.jpg" width="100%" height="100%" style="">
+                </div>
+                <div class="info_box p-3 bg-white">
+                    <p class="float-left font-weight-bold mb-0" style="font-size: 115%">{{lente.nombre}}</p>
+                    <p class="float-right font-weight-bold mb-2" style="font-size: 115%">${{lente.precio}}</p>
+                    <div style="clear: both;"></div>
+
+                    <p style="font-size: 85%;height:35px;">marca: {{lente.marca}}</p>
+                    <!-- <div class="star_box float-left pt-2">
+                        <img src="/assets/image/icon_star.svg" width="80%">
+                    </div> -->
+                    <div class="order_box float-right">
+                        <div (click)="checkorder(lente)" class="order_button float-right pt-2">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+<!-- Login -->
+<div class="modal fade login mt-5 " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+
+
+            <div class="cart_box" style="width: 100%;margin: auto;">
+                <div class="login_img_box float-left" style="width: 50%;height: 450px;background: pink;">
+                    <img src="assets/image/login.jpg" width="100%" height="100%">
+                </div>
+
+                <div id="login_box">
+                    
+                    <form #form="ngForm" action="" (ngSubmit)="SignIn(form)">
+
+                        <div class="login_info_box float-right p-5" style="width: 50%;height: 450px;">
+                            <p class="text-center font-weight-bold" style="font-size: 140%">Iniciar Sesión</p>
+                            <label class="font-weight-bold mt-1">Usuario</label>
+                            <input ngModel name="usuario" id="usernameSignup" type="email" class="form-control"
+                                aria-describedby="emailHelp" style="outline: none;">
+                            <label class="mt-3 font-weight-bold">Contraseña</label>
+                            <input ngModel name="password" id="password" type="password" class="form-control" aria-describedby="emailHelp">
+                            <button class="btn btn-primary mt-4"
+                                style="width: 100%;background: #fb9200;border: 0;outline: none;">Entrar</button>
+                            <p id="statusLogin" class="text-center mt-4" style="font-size: 90%;color: red;"></p>
+                            <p onclick="move_signup()" class="text-center mt-3" style="font-size: 90%">No tienes una
+                                cuenta<strong style="color:#fb9200 "> registrate</strong> </p>
+                        </div>
+                    </form>
+                </div>
+
+
+
+                <div id="signup_box" style="display: none;">
+                    <form #forma="ngForm" action="" (ngSubmit)="SignUp(forma)">
+
+                        <div class="signup_info_box float-right p-4 pl-5 pr-5" style="width: 50%;height: auto">
+                            <p class="text-center font-weight-bold" style="font-size: 140%">Registro</p>
+                            <label class="font-weight-bold mt-1">Usuario</label>
+                            <input ngModel name="usuario" id="usernameSignup" type="email" class="form-control"
+                                aria-describedby="emailHelp" style="outline: none;">
+                            <label class="font-weight-bold mt-1">Email</label>
+                            <input ngModel name="email" id="emailSignup" type="email" class="form-control"
+                                aria-describedby="emailHelp" style="outline: none;">
+                            <label class="font-weight-bold mt-1">Nombre</label>
+                            <input ngModel name="nombre" id="firstnameSignup" type="text" class="form-control"
+                                aria-describedby="emailHelp" style="outline: none;">
+                            <label class="font-weight-bold mt-1">Apellido</label>
+                            <input ngModel name="apellido" id="lastnameSignup" type="text" class="form-control"
+                                aria-describedby="emailHelp" style="outline: none;">
+                            <label class="mt-3 font-weight-bold">Contraseña</label>
+                            <input ngModel name="password" id="passwordSignup" type="password" class="form-control"
+                                aria-describedby="emailHelp">
+                            <button class="btn btn-primary mt-4"
+                                style="width: 100%;background: #fb9200;border: 0;outline: none;">
+                                Registrarse</button>
+                            <p id="statusSignup" class="text-center mt-3 mb-1" style="font-size: 90%;color: red;"></p>
+                        </div>
+                    </form>
+
+                    <p onclick="move_login()" class="text-center mt-0" style="font-size: 90%">Ya tienes una
+                        cuenta?<strong style="color:#fb9200 "> Inicia sesión</strong> </p>
+
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Carrito -->
+<div class="modal fade orderCart mt-3 " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+
+
+            <div id="checkout_form" class="cart_box pl-5 pt-4 shadow-sm mt-3 pb-4" style="width: 100%;margin: auto;">
+                <p class="ml-2" style="font-size: 130%;font-weight: bold;">Tu orden</p>
+                <div data-spy="scroll" data-target="#myScrollspy" data-offset="10"
+                    style="height:340px;overflow-y: scroll;padding-top: 5px;padding-right: 10px;">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 40%;font-size: 115%;">Producto</th>
+                                <th scope="col" style="width: 20%;font-size: 115%;" class="text-center">Cantidad</th>
+                                <th scope="col" style="width: 20%;font-size: 115%;" class="text-center">Precio</th>
+                                <th scope="col" style="width: 20%;font-size: 115%;" class="text-center">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prinf_order_cart" >
+                          
+                            
+
+                        </tbody>
+                    </table>
+                    <div *ngFor = "let orden of orden_; index as i">
+                        <h1>Hola {{orden[i]}} </h1>
+                    </div>
+                </div>
+                <div class="float-left pl-2" style="width: 30%;">
+                    <p class="font-weight-bold mt-2" style="font-size: 115%">Total</p>
+                </div>
+                <div class="float-right pr-5" style="width: 30%;">
+                    <p id="total_money" class="font-weight-bold float-right mt-2" style="font-size: 115%"> </p>
+                </div>
+                <div style="clear: both;"></div>
+                <div onclick="checkout()" class="btn mr-5 text-white float-right" style="background: #fb9200;">Checkout
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+
+
+            <div id="payment_form" class="p-5" style="width: 100%;height: 400px;display: none;">
+                <div class="choose_box float-left" style="width: 60%;">
+                    <p class="font-weight-bold" style="font-size: 130%">CheckOut</p>
+                    <p class="mb-2 font-weight-bold">Escoja método de pago</p>
+                    <div class="payment_choose_box" style="width: 60%">
+                        <div class="float-left pr-1 pb-1" style="width: 50%;height: 80px;">
+                            <img onclick="viettinbank()" class="payment_vietinbank " src="assets/image/zelle.png"
+                                width="100%" height="100%" style="border: 1px solid #d7d7d7;">
+                        </div>
+                        <div class="float-right pr-1 pb-1" style="width: 50%;height: 80px;">
+                            <img onclick="donga()" class="payment_donga" src="assets/image/paypal.jpg" width="100%"
+                                height="100%" style="border: 1px solid #d7d7d7;">
+                        </div>
+                        <div class="float-left pr-1 pb-1" style="width: 50%;height: 80px;">
+                            <img onclick="nama()" class="payment_nama" src="assets/image/efectivo.jpg" width="100%"
+                                height="100%" style="border: 1px solid #d7d7d7;">
+                        </div>
+                        <div class="float-right pr-1 pb-1" style="width: 50%;height: 80px;">
+                            <img onclick="sacom()" class="payment_sacom pl-3 pr-3" src="assets/image/transferencia.jpg"
+                                width="100%" height="100%" style="border: 1px solid #d7d7d7;">
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                <div class="choose_box p-3 float-right" style="width: 40%;height: 100px;">
+                    <label for="exampleInputEmail1">Usuario</label>
+
+                    <!-- <div class="p-2" style="width: 100%;height: 40px;border: 1px solid #ccc;border-radius: 5px;">
+      <p id="name_customer"></p>
+    </div> -->
+                    <input id="name_customer" type="text" class="form-control " id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1" class="mt-3">Numero de Telefono</label>
+                    <input id="phone_customer" type="text" class="form-control " id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1" class="mt-3">email</label>
+                    <input id="address_customer" type="text" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                    <button (click)="payment()" class="btn btn-primary float-right mt-3">Realizar Compra</button>
+                    <button data-dismiss="modal" class="btn btn-primary float-left mt-3" data-toggle="modal" data-target=".orderCart">Volver</button>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
