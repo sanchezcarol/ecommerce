@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
+import Swal from 'sweetalert2';
 import { UpdateComponent } from './modal/update/update.component';
 
 @Component({
@@ -36,9 +37,27 @@ export class AdminComponent implements OnInit {
   }
 
   eliminar(id){
-    this.productService.eliminarProducto(id).subscribe(resp =>{
-      console.log('producto eliminado ', resp);
-      
+
+    Swal.fire({
+      title: 'Eliminar',
+      text: "No podrás revertir esto",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+        this.productService.eliminarProducto(id).subscribe(
+          resp=>{
+            Swal.fire(
+            'Usuario eliminado exitosamente!'
+            )
+            setTimeout('location.reload()',1000);
+          }
+        ) 
+      }
     })
   }
 

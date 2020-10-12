@@ -14,7 +14,7 @@
 
         <label for="inputModelo" class="">Modelo</label>
         <select  ngModel name="inputModelo" id="inputModelo" class="form-control" placeholder="Modelo de lentes" required autofocus>
-          <option value="cosmeticos">cosmeticos</option>
+          <option value="de sol">De sol</option>
           <option value="convencional">Convencional</option>
           <option value="de contacto">De Contacto</option>
         </select>
@@ -31,6 +31,9 @@
         <label for="inputPrecio" class="">Precio (dolares)</label>
         <input  ngModel type="number" name="inputPrecio" id="inputPrecio" class="form-control" placeholder="0.00" min="0" max="100000" required>
         
+        <label for="inputPrecio" class="">Imagen</label><br>
+        <input type="file" (change)="onImageChanged($event)" />
+        <br>
         <br><button id="btnAddProduct" class="btn btn-lg btn-success btn-block" type="submit">Agregar Producto</button>
       </form>
     </div>

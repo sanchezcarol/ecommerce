@@ -3,30 +3,32 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
+
+
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  _URL_ = 'http://localhost:8000'
+  _URL_ = environment.apiUrl
 
   constructor(public http: HttpClient) { }
 
-  crear(form) {
+  crear(form,imagen) {
 
-    // this.obtener().subscribe(resp=>{
-    //   console.log('la rrsp ', resp);
-
-    // })
-    let url = `${this._URL_}/API/products/`
-    // console.log(form);
-
+    let url = `${environment.apiUrl}/API/products/`
     return this.http.post(url, form).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
-        console.log('resp ', resp);
-
+        Swal.fire('Producto creado exitosamente', 'success')
         return resp
+      }),
+      catchError(err => {
+        Swal.fire( 'Error', 'error' );
+        return throwError(err)
       })
     )
 
@@ -38,14 +40,10 @@ export class ProductService {
     let url = `${this._URL_}/API/products/`
     return this.http.get(url).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
-        console.log('resp ', resp);
 
         return resp
       })
     )
-
-
   }
 
   register(user) {
@@ -53,24 +51,44 @@ export class ProductService {
     let url = `${this._URL_}/API/users/`
     return this.http.post(url, user).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
+        Swal.fire('Cuenta creada exitosamente','success')
         return resp
+      }),
+      catchError(err => {
+        Swal.fire( 'Intente nuevamente', 'Debe completar todos los campos', 'error' );
+        return throwError(err)
       })
     )
 
 
   }
 
-  actualizarProducto(producto) {
-    let url = `${this._URL_}/API/products/${producto.id}/`
+  actualizarProducto(producto,id) {
+    let url = `${this._URL_}/API/products/${id}/`
 
     return this.http.put(url, producto).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
+        
+        Swal.fire('Producto actualizado exitosamente', 'success')
+        return resp
+      }),
+      catchError(err => {
+        Swal.fire( 'Error', 'error' );
+        return throwError(err)
+      })
+    )
+  }
 
+  obtenerProducto(id){
+
+    let url = `${this._URL_}/API/products/${id}/`
+
+    return this.http.get(url).pipe(
+      map((resp: any) => {
         return resp
       })
     )
+
   }
 
   eliminarProducto(id) {
@@ -80,9 +98,11 @@ export class ProductService {
 
     return this.http.delete(url).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
-
         return resp
+      }),
+      catchError(err => {
+        Swal.fire( 'Error', 'error' );
+        return throwError(err)
       })
     )
 
@@ -90,18 +110,14 @@ export class ProductService {
 
   login(user) {
 
-    let url = 'http://127.0.0.1:8000/API/login/'
-    console.log(user);
-
+    let url = `${this._URL_}/API/login/`
     return this.http.post(url, user).pipe(
       map((resp: any) => {
         // Swal.fire('Usuario creado exitosamente', user.email, 'success')
-
         return resp
       }),
       catchError(err => {
-        // Swal.fire( 'Error Registrando Usuario', err.error.errors.message, 'error' );
-        console.log(err);
+        Swal.fire( 'Error', err.error.detail, 'error' );
         return throwError(err)
       })
     )
@@ -110,19 +126,15 @@ export class ProductService {
 
 
   realizar_compra(compra){
-    let url = 'http://127.0.0.1:8000/API/ventas/'
-
-    console.log(compra);
-    
+    let url = `${this._URL_}/API/ventas/` 
 
     return this.http.post(url, compra).pipe(
       map((resp: any) => {
-        // Swal.fire('Usuario creado exitosamente', user.email, 'success')
-
+        Swal.fire('Compra realizada', 'success')
         return resp
       }),
       catchError(err => {
-        // Swal.fire( 'Error Registrando Usuario', err.error.errors.message, 'error' );
+        Swal.fire( 'Error','error' );
         console.log(err);
         return throwError(err)
       })

@@ -1,20 +1,31 @@
 <app-navbar></app-navbar>
-<div id="list_food_home" class="container">
+<br>
 
-    <h1 style="text-align: center; margin: 30px;">¡ TENEMOS PARA TI LA MEJOR CALIDAD EN LENTES !</h1>
+<h1 style="text-align: center; margin: 30px;">¡ TENEMOS PARA TI LA MEJOR CALIDAD EN LENTES !</h1>
+<div class="filter container"  >
+    <a href="#" data-filter="*" class="current">Todo</a>
+    <a href="#" data-filter=".sol">De sol</a>
+    <a href="#" data-filter=".convencional">Convencional</a>
+    <a href="#" data-filter=".contacto">De contacto</a>
+</div>
 
-    <div class="row" id="prinf_food">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-4" *ngFor="let lente of lentes">
-            <div class="produre_box bg-white shadow-sm">
+
+<section class="container">
+   
+   <div id="list_food_home">
+    <div class="row" >
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-4  {{lente.modelo}}" *ngFor="let lente of lentes">
+            <div class="produre_box bg-white shadow-sm ">
                 <div class="image_box">
-                    <img src="/assets/image/lente1.jpg" width="100%" height="100%" style="">
+                    <img src="{{lente.cover}}" width="100%" height="100%" style="">
                 </div>
                 <div class="info_box p-3 bg-white">
-                    <p class="float-left font-weight-bold mb-0" style="font-size: 115%">{{lente.nombre}}</p>
+                    <p class="float-left font-weight-bold mb-0" style="font-size: 100%">{{lente.nombre}}</p>
                     <p class="float-right font-weight-bold mb-2" style="font-size: 115%">${{lente.precio}}</p>
                     <div style="clear: both;"></div>
 
-                    <p style="font-size: 85%;height:35px;">marca: {{lente.marca}}</p>
+                    <p style="font-size: 85%;height:25px;">Marca: {{lente.marca}}</p>
+                    <p style="font-size: 85%;height:35px;">En existencia: {{lente.stock}}</p>
                     <!-- <div class="star_box float-left pt-2">
                         <img src="/assets/image/icon_star.svg" width="80%">
                     </div> -->
@@ -30,10 +41,37 @@
 
 
     </div>
+</div> 
+</section>
 
+<div style="background: url(assets/banner.jpg) no-repeat;
+background-size: cover; height: calc(70vh);">
+    <!-- <img src="assets/banner.jpg" alt=""> -->
+    
+</div> 
+<br><br>
 
+<section>
+   
 
-</div>
+    <div class="container">
+        <div class="row" style="margin:50px auto;">
+            <div class="col-lg-6">
+                <form >   
+                    <h2 style="text-align: center;">Contáctanos</h2> <br>
+                    <input name="name" type="text" class="feedback-input" placeholder="Nombre" />   
+                    <input name="email" type="text" class="feedback-input" placeholder="Email" />
+                    <textarea name="text" class="feedback-input" placeholder="Mensaje"></textarea>
+                    <input type="submit" value="Enviar"/>
+                  </form>
+            </div>
+            <div class="col-lg-6">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3948.101798986265!2d-62.74377348551973!3d8.292667394033746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8dcbf97ad69c6793%3A0xa1109be348e37510!2sOrinokia%20Mall!5e0!3m2!1ses!2sve!4v1602536884415!5m2!1ses!2sve" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+</section>
 
 <!-- Login -->
 <div class="modal fade login mt-5 " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -117,6 +155,7 @@
 
             <div id="checkout_form" class="cart_box pl-5 pt-4 shadow-sm mt-3 pb-4" style="width: 100%;margin: auto;">
                 <p class="ml-2" style="font-size: 130%;font-weight: bold;">Tu orden</p>
+                <hr>
                 <div data-spy="scroll" data-target="#myScrollspy" data-offset="10"
                     style="height:340px;overflow-y: scroll;padding-top: 5px;padding-right: 10px;">
                     <table class="table table-borderless">
@@ -128,14 +167,24 @@
                                 <th scope="col" style="width: 20%;font-size: 115%;" class="text-center">Eliminar</th>
                             </tr>
                         </thead>
-                        <tbody id="prinf_order_cart" >
-                          
-                            
-
+                        <tbody id="prinf_order_cart" *ngFor="let item of order  | keyvalue" >
+                            <tr>  
+                                <td><div>
+                                  <div class="cart_img_box float-left">
+                                    <img src="{{item.value.cover}}" width="100%" height="100%">
+                                  </div>
+                                  <div class="cart_info_box float-left pl-3">
+                                      <p class="mb-1 font-weight-bold" style="font-size: 115%;">{{ item.value.nombre }}</p>
+                                  </div>
+                                </div> </td>
+                                <td class="text-center"><input id="quality_input_change`+ i + `" (change) ="upQuality(item.value.id)" class="cart_input_quanlity mt-2" type="number" value="{{ item.value.quantity }}" name="" min="1" max="20" style=""> </td>
+                                <td class="text-center"><p class="mt-2" style="padding:5px;">{{ item.value.precio * item.value.quantity}} $</p></td>
+                                <td class="text-center"><div class="cart_button_delete" (click)="delete_order(item.value.id, item.key )"><i class="fa fa-trash" aria-hidden="true" style="color: #fb9200;font-size: 180%"></i></div> </td>
+                              </tr> 
                         </tbody>
                     </table>
-                    <div *ngFor = "let orden of orden_; index as i">
-                        <h1>Hola {{orden[i]}} </h1>
+                    <div >
+                        
                     </div>
                 </div>
                 <div class="float-left pl-2" style="width: 30%;">
@@ -152,9 +201,10 @@
 
 
 
-            <div id="payment_form" class="p-5" style="width: 100%;height: 400px;display: none;">
+            <div id="payment_form" class="p-5" style="width: 100%;height: 500px;display: none;">
                 <div class="choose_box float-left" style="width: 60%;">
                     <p class="font-weight-bold" style="font-size: 130%">CheckOut</p>
+                    <hr>
                     <p class="mb-2 font-weight-bold">Escoja método de pago</p>
                     <div class="payment_choose_box" style="width: 60%">
                         <div class="float-left pr-1 pb-1" style="width: 50%;height: 80px;">
@@ -187,12 +237,17 @@
                     <label for="exampleInputEmail1" class="mt-3">Numero de Telefono</label>
                     <input id="phone_customer" type="text" class="form-control " id="exampleInputEmail1"
                         aria-describedby="emailHelp">
-                    <label for="exampleInputEmail1" class="mt-3">email</label>
+                    <label for="exampleInputEmail1" class="mt-3">Numero de Referencia</label>
                     <input id="address_customer" type="text" class="form-control" id="exampleInputEmail1"
                         aria-describedby="emailHelp">
-                    <button (click)="payment()" class="btn btn-primary float-right mt-3">Realizar Compra</button>
-                    <button data-dismiss="modal" class="btn btn-primary float-left mt-3" data-toggle="modal" data-target=".orderCart">Volver</button>
+                    <br>
+                    <!-- <p>Precio Total:  {{ total_order }} $</p> -->
 
+                    <button (click)="payment()" class="btn btn-primary float-right mt-3">Realizar Compra</button>
+                    <!-- <button class="btn btn-primary float-left mt-3"  data-dismiss="modal" data-toggle="modal" data-target=".orderCart">Volver</button> -->
+                    <div onclick="carrito()" class="btn mt-3 text-white float-left" style="background: #fb9200;">Volver
+                    </div>
+                    <div style="clear: both;"></div>
                 </div>
             </div>
 
@@ -200,3 +255,59 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade bd-example-modal-sm33 mt-5" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel33"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+    
+        <div id="changepass" class=" iconpopup mt-4" style="margin: 0 auto; width: 80%;margin-bottom: 10%;">
+          <p class="text-center mb-3" style="font-weight: bold;margin-bottom: 2%;font-size: 120%">Cambiar contraseña</p>
+          <hr>
+          <p class="mt-1" style="margin-bottom: 2%;">Contraseña actual</p>
+          <input type="password" name="pass" id="passold" class="form-control ">
+          <p class="mt-1" style="margin-bottom: 2%;">Nueva Contraseña</p>
+          <input type="password" name="pass" id="passnew" class="form-control ">
+          <p id="notification_change_pass" class="mt-4 text-center mb-0 " style="font-size: 90%;color: red;"></p>
+          <button class="btn btn-warning float-right mt-3"  (click)="cambiar()" >Modificar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade bd-example-modal-lg22" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content p-3" style="width: 100%">
+        <p class="font-weight-bold" style="font-size: 110%">Historial de Compras</p>
+        <hr>
+        <div data-spy="scroll" data-target="#myScrollspy" data-offset="10"
+          style="height:300px;overflow-y: scroll;padding-top: 5px;padding-right: 10px;">
+          <table class="table table-borderless">
+
+
+            <thead>
+              <tr>
+                <th scope="col" style="font-size: 115%;" class="text-center">Fecha</th>
+                <th scope="col" style="font-size: 115%;" class="text-center">ID Producto</th>
+                <th scope="col" style="font-size: 115%;" class="text-center">Cantidad</th>
+                <th scope="col" style="font-size: 115%;" class="text-center">Precio Total</th>
+              </tr>
+            </thead>
+
+            <tbody *ngFor="let venta of ventas" >
+              <tr>
+                <td class="text-center">{{venta.fechaCompra}}</td>
+                <td class="text-center">{{venta.idProduct}}</td>
+                <td class="text-center">{{venta.CantidadDeUnidades}}</td>
+                <td class="text-center">$ {{venta.precioTotal}}</td>
+                </tr> 
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>

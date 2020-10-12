@@ -6,6 +6,7 @@ export class Factura {
         public idProduct?: number,
         public idUserrAccount?: number,
         public CantidadDeUnidades?: number,
+        public precioTotal?:any
     )
     { }
   }

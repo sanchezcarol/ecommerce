@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Factura } from 'src/app/models/product/factura.model';
 import { Order } from 'src/app/models/product/order.model';
 import { User } from 'src/app/models/product/user.model';
+import { AdminService } from 'src/app/services/admin.service';
 import { ProductService } from 'src/app/services/product.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,20 +20,33 @@ export class ShoppingCartComponent implements OnInit {
   orden_
   id_order_food = JSON.parse(localStorage.getItem('id_order_food'));
   checkordervalue = 0;
-  constructor(private productService: ProductService) { }
+  quantity
+  ventas
+
+  constructor(private productService: ProductService, private admin:AdminService) { }
 
   ngOnInit(): void {
-
+    
     var user = JSON.parse(localStorage.getItem("login"))
+    this.orden_ = JSON.parse(localStorage.getItem('order'));
+    
+    if( this.orden_) this.order = this.orden_
+    
+    if(this.orden_){
+      this.quantity = this.order.length
+      document.getElementById("order_number").innerHTML = this.quantity +'';
+      
+    }
+
     if (user) {
 
       if (!user.is_staff) {
-
+        
         document.getElementById("menu_account_login").innerHTML = user.username;
         document.getElementById("menu_account_login").style.display = 'block';
         document.getElementById("menu_login_button").style.display = 'none';
         document.getElementById("menu_stock_button").style.display = 'none';
-        document.getElementById("hello_user").innerHTML = "Hola " + user.nombre + " !";
+        document.getElementById("hello_user").innerHTML = "Hola " + user.username + " !";
         document.getElementById("menu_logout").style.display = 'block';
         document.getElementById("quanlydon").style.display = 'none';
 
@@ -42,16 +57,13 @@ export class ShoppingCartComponent implements OnInit {
         document.getElementById("menu_account_login").style.display = 'block';
         document.getElementById("menu_login_button").style.display = 'none';
         document.getElementById("menu_stock_button").style.display = 'block';
-        document.getElementById("hello_user").innerHTML = "Hola " + user.nombre + " !";
+        document.getElementById("hello_user").innerHTML = "Hola " + user.username + " !";
         document.getElementById("menu_logout").style.display = 'block';
         document.getElementById("quanlydon").style.display = 'none';
       }
 
 
     }
-
-
-
 
 
     if (this.id_order_food === null) {
@@ -64,12 +76,21 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   obtenerLentes() {
+    
     this.productService.obtener().subscribe(resp => {
       console.log(resp);
       this.lentes = resp
       // console.log(this.lentes[0]);
 
     })
+    var user = JSON.parse(localStorage.getItem("login"))
+    
+    if(user){ 
+      this.admin.ventas_user(user.id).subscribe(resp =>{
+        this.ventas = resp
+      })
+    }
+    
   }
 
   SignUp(f) {
@@ -120,17 +141,24 @@ export class ShoppingCartComponent implements OnInit {
 
   checkorder(product) {
 
-    // localStorage.setItem("carrito", JSON.stringify(orderFood));
+    // localStorage.setItem("order", JSON.stringify(product));
     this.checkordervalue = 0
 
-    if (this.order.length > 0) {
+    if (this.order) {
       for (let i = 0; i < this.order.length; i++) {
 
         if (product.id == this.order[i].idproducto) {
           this.checkordervalue = 1;
           this.order[i].quantity++;
-
-          this.order[i].quantity;
+          if(this.order[i].quantity > product.stock) { 
+            this.order[i].quantity--;
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'La cantidad seleccionada no debe exceder el stock del producto!',
+            })
+            break
+          }
           localStorage.setItem("order", JSON.stringify(this.order));
           this.orderprinf();
 
@@ -149,27 +177,28 @@ export class ShoppingCartComponent implements OnInit {
 
   }
 
-
-
   orderpush(product) {
-    var paymentFood = JSON.parse(localStorage.getItem('paymentFood'));
 
     var id = this.id_order_food;
     var nombre = product.nombre;
     var precio = product.precio;
     var modelo = product.modelo;
     var marca = product.marca;
-    // var image_order = product.image;
+    var cover = product.cover;
     var quantity = 1;
-    // var user_id_order = checkLogin; //user id del usuario
     var idproducto = product.id;
-    var food_order = { id, nombre, modelo, marca, idproducto, precio, quantity };
+    var food_order = { id, nombre, modelo, marca, idproducto, precio, quantity, cover };
 
     this.order.push(food_order);
+
+    this.quantity = this.order.length
+
+    document.getElementById("order_number").innerHTML = this.quantity +'';
 
     localStorage.setItem("order", JSON.stringify(this.order));
 
     this.id_order_food++;
+
     localStorage.setItem("id_order_food", JSON.stringify(this.id_order_food));
     // demOrder();
 
@@ -193,59 +222,30 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  delete_order(id_order) {
-    console.log('delete', id_order);
-
-    // for (var i = 0; i < orderFood.length; i++) {
-    //   if (id_order == orderFood[i].id_order && checkLogin == orderFood[i].user_id_order) {
-    //     orderFood.splice(i, 1);
-    //     localStorage.setItem("orderFood", JSON.stringify(orderFood));
-    //     orderprinf();
-    //     demOrder();
-    //     break;
-    //   }
-    // }
+  delete_order(id_order, value) {
+    console.log('delete', id_order, value);
+    this.order.splice(value,1);
+    localStorage.setItem("order", JSON.stringify(this.order))
+    document.getElementById("order_number").innerHTML = this.order.length +'';
+    this.orderprinf()
   }
-
 
   orderprinf() {
 
-    document.getElementById("prinf_order_cart").innerHTML = '';
-
-    this.orden_ = JSON.parse(localStorage.getItem('order'));
+    this.order = JSON.parse(localStorage.getItem('order'));
     this.totalMoney();
 
-    for (let i = 0; i < this.orden_.length; i++) {
-
-      var prinf_order_cart = `<tr>  
-      <td><div>
-        <div class="cart_img_box float-left">
-            
-        </div>
-        <div class="cart_info_box float-left pl-3">
-            <p class="mb-1 font-weight-bold" style="font-size: 115%;">`+ this.orden_[i].nombre + `</p>
-        </div>
-      </div> </td>
-      <td class="text-center"><input id="quality_input_change`+ i + `" onChange ="upQuality(` + this.orden_[i].id + `)" class="cart_input_quanlity mt-2" type="number" value="` + this.orden_[i].quantity + `" name="" min="1" max="20" style=""> </td>
-      <td class="text-center"><p class="mt-2" style="padding:5px;">`+ this.orden_[i].precio * this.orden_[i].quantity + `$</p></td>
-      <td class="text-center"><div class="cart_button_delete" id="delete"><i class="fa fa-trash" aria-hidden="true" style="color: #fb9200;font-size: 180%"></i></div> </td>
-    </tr>`
-      document.getElementById("prinf_order_cart").innerHTML += prinf_order_cart;
-      // document.getElementById ("delete").addEventListener ("click", function(){this.delete_order((<HTMLInputElement>this.orden_[i].id)}, false )
-      // click="delete_order(`+ this.orden_[i].id + `)"
-
-    }
 
   }
 
 
   totalMoney() {
-    var total_order = 0;
+   var total_order = 0
+
     for (let i = 0; i < this.order.length; i++) {
-
       total_order += this.order[i].precio * this.order[i].quantity;
-
     }
+
     document.getElementById("total_money").innerHTML = total_order + "$";
 
   }
@@ -254,7 +254,6 @@ export class ShoppingCartComponent implements OnInit {
     
     var user = JSON.parse(localStorage.getItem("login"))
     this.factura.idUserrAccount = user.id
-    console.log(user.id);
     
     var order = JSON.parse(localStorage.getItem("order"))
 
@@ -263,17 +262,46 @@ export class ShoppingCartComponent implements OnInit {
 
         this.factura.CantidadDeUnidades = order[i].quantity
         this.factura.idProduct = order[i].idproducto
-        
+        this.factura.precioTotal = order[i].precio * order[i].quantity
         this.productService.realizar_compra(this.factura).subscribe(
           resp => {
-            console.log(resp);
             
           }
         )
-
       }
     }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Compra realizada !!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    
+    localStorage.removeItem("order")
+    location.reload()
+    setTimeout('location.reload()',1000) 
   }
+
+  cambiar(){
+
+    var passnew = (<HTMLInputElement>document.getElementById("passnew")).value
+    var passold = (<HTMLInputElement>document.getElementById("passold")).value
+    var user = JSON.parse(localStorage.getItem("login"))
+    console.log(user);
+    
+    console.log('passol' , passold, passnew);
+    this.admin.cambiar(passold,passnew,user.id).subscribe(resp=>{
+      console.log(resp);
+      
+    })
+
+
+  }
+
+  
+  
 }
 
 

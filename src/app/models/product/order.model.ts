@@ -8,6 +8,7 @@ export class Order {
         public idproducto?: string,
         public precio?: number,
         public quantity?: number,
+        public cover?:any
     )
     { }
   }

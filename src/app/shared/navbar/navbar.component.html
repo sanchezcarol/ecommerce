@@ -1,17 +1,18 @@
 <div class="container-fluid p-0" style="background: url(assets/bg2.jpg) no-repeat;
 background-size: cover;
-height: calc(100vh);">
-    <p style="font-size: 240%;font-weight: bold;margin-left: 140px;position: absolute;margin-top: 110px;">Your Favorite
-        Food<br>Delivered Hot &<br> Fresh
-
-    </p>
-    <p style="margin-left: 140px;position: absolute;margin-top: 295px;">Healthy switcher chefs do all
-        the prep work, like peeding,<br> chopping & marinating, so you can cook a fresh food
-
-    </p>
+height: calc(100vh); ">
+    <div style="align-items: center;">
+    <p style="color:#fff; font-size: 300%;font-weight: bold;margin-left: 140px;position: absolute;margin-top: 230px;">
+            TU OPTICA AMIGA<br><br>
+        </p>
+        <p style="color:#fff; font-size: 200%; margin-left: 140px;position: absolute;margin-top: 295px;">¡
+            Somos especialistas en la salud visual !
+        </p>
+    </div>
+    
     <button style="margin-left: 140px;position: absolute;margin-top: 370px;background: #fb9200;padding: 10px;border: 0;border-radius: 30px;color: #fff;padding-left: 30px;padding-right: 30px;-webkit-box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);
 -moz-box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);
-box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);">Comprar</button>
+box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);">Compra con nosotros</button>
     <nav id="menu" style="position: fixed;z-index: 999;">
         <input type="checkbox" id="check">
         <label for="check" class="checkbtn">
@@ -21,13 +22,15 @@ box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);">Comprar</button>
         <ul>
 
             <li><a onclick="home_page()" class="active text-white">Shop</a></li>
-            <li><a data-toggle="modal" data-target=".orderCart">Carrito<div
-                        style="width: 20px;height: 20px;background: #fb9200;position: absolute;top: 25px;margin-left: 80px;border-radius: 50%">
+            <li><a data-toggle="modal" data-target=".orderCart"><i class="fas fa-shopping-cart"></i>
+                    <div
+                        style="width: 20px;height: 20px;background: #fb9200;position: absolute;top: 25px;margin-left: 30px;border-radius: 50%">
                         <p id="order_number"
-                            style="position: absolute;margin-top: -30px;margin-left: 7px;color: #fff;font-size: 80%">0
+                            style="position: absolute;margin-top: -30px;margin-left: 6px;color: #fff;font-size: 80%">0
                         </p>
-                    </div> </a></li>
-            <li><a id="menu_stock_button" style="display: none;" href="/admin" >Ver Stock</a></li>
+                    </div>
+                </a></li>
+            <li><a id="menu_stock_button" style="display: none;" href="/admin">Ver Stock</a></li>
             <li><a id="menu_login_button" data-toggle="modal" data-target=".login">Login</a></li>
             <li><a id="menu_account_login" class="menu_account_hide" style="display: none;"></a>
 
@@ -46,19 +49,19 @@ box-shadow: 10px 13px 38px -19px rgba(251,146,0,1);">Comprar</button>
                 </div>
                 <div class="box p-1" data-toggle="modal" data-target=".bd-example-modal-lg22" style="height: 35px">
 
-                    <p><i class="fa fa-list-alt text-white mr-3" aria-hidden="true"></i>Đơn của tôi</p>
+                    <p><i class="fa fa-list-alt text-white mr-3" aria-hidden="true"></i>Ver ventas</p>
 
                 </div>
-                <div class="box p-1" data-toggle="modal" data-target=".bd-example-modal-sm33" style="height: 35px">
+                <div class="box p-1" data-toggle="modal" data-target=".bd-example-modal-sm33" style="height: 50px">
 
-                    <p><i class="fa fa-key text-white mr-3" aria-hidden="true"></i>Đổi mật khẩu</p>
+                    <p><i class="fa fa-key text-white mr-3" aria-hidden="true"></i>Cambiar contraseña</p>
 
                 </div>
 
 
                 <div class="box p-1" style="height: 35px">
 
-                    <p onclick="Logout()"><i class="fa fa-sign-out text-white mr-3" aria-hidden="true"></i>Đăng xuất</p>
+                    <p (click)="Logout()"><i class="fa fa-sign-out text-white mr-3" aria-hidden="true"></i>Salir</p>
                 </div>
             </div>
         </div>

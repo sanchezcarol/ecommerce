@@ -1,0 +1,50 @@
+<!-- <div class="container">
+  <h2>Simple Pagination Example using Datatables Js Library</h2>
+  <table class="table table-fluid" id="myTable">
+  <thead>
+  <tr><th>Name</th><th>Email</th><th>Password</th></tr>
+  </thead>
+  <tbody  *ngFor="let venta of ventas">
+  <tr><td>Daniel Danny</td><td>danny.daniel@gmail.com</td><td>Pass1234</td></tr>
+  </tbody>
+  </table>
+</div> -->
+
+<div class="container">
+    
+    <div class="jumbotron">
+      <h1>Historial de Ventas</h1>
+      <p class="lead"></p>
+    </div>
+    <table class="table table-dark" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Fecha de Compra</th>
+          <th scope="col">ID Producto</th>
+          <th scope="col">ID Cliente</th>
+          <th scope="col">Precio Total ($)</th>
+          <th scope="col">Functions</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let venta of ventas">
+      
+        <tr>
+          <th scope="row"> - </th>
+          <td>{{venta.fechaCompra}}</td>
+          <td >{{venta.idProduct}}</td>
+          <td>{{venta.idUserrAccount}}</td>
+          <td>{{venta.precioTotal}}</td>
+          <td>        
+            <div id="btnModalEdit" class="btn btn-primary" (click)="rellenarModal(product)">Ver</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <footer class="footer">
+      <p>&copy; Optica Merida Store 2020</p>
+    </footer>
+
+  </div> 

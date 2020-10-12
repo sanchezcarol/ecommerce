@@ -7,6 +7,8 @@ import { RegisterComponent } from './components/register/register.component'
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component'
 import { AdminComponent } from './components/admin/admin.component'
 import { AgregarComponent } from './components/admin/agregar/agregar.component'
+import { VentasComponent } from './components/admin/ventas/ventas.component'
+import { UsuariosComponent } from './components/admin/usuarios/usuarios.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/shop', pathMatch: 'full' },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'admin/add-product', component: AgregarComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'shop', component: ShoppingCartComponent },
+  { path: 'admin/ventas', component: VentasComponent },
+  { path: 'admin/usuarios', component: UsuariosComponent },
   { path: '**', component: PageNotFoundComponent }
 ]
 

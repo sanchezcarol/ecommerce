@@ -14,6 +14,9 @@ import { AgregarComponent } from './components/admin/agregar/agregar.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { UpdateComponent } from './components/admin/modal/update/update.component';
+import { VentasComponent } from './components/admin/ventas/ventas.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { UpdateComponent } from './components/admin/modal/update/update.componen
     PageNotFoundComponent,
     AdminComponent,
     AgregarComponent,
-    UpdateComponent
+    UpdateComponent,
+    VentasComponent,
+    FooterComponent,
+    UsuariosComponent
   ],
   imports: [
     HttpClientModule ,

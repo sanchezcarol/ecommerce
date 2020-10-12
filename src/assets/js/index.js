@@ -23,6 +23,12 @@ $(document).ready(function(){
     $('.payment_sacom').css('border','1px solid #d7d7d7');	
     });
 });
+
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+
 $(document).ready(function(){
     $('.payment_sacom').click(function(){
     $('.payment_sacom').css('border','2px solid #2195f3');
@@ -45,7 +51,9 @@ $('#editModal').on('shown.bs.modal', function () {
 				document.getElementById("menu").className = "";
 			}
 		});
-	});
+    });
+    
+    
 
 
 
@@ -70,6 +78,12 @@ $('#editModal').on('shown.bs.modal', function () {
     	document.getElementById("payment_form").style.display = 'block';
     	document.getElementById("checkout_form").style.display = 'none';
     }
+
+    function carrito(){
+    	document.getElementById("payment_form").style.display = 'none';
+    	document.getElementById("checkout_form").style.display = 'block';
+    }
+
 var bank;
     function viettinbank(){
      bank = "viettinbank";
@@ -97,4 +111,5 @@ var bank;
     listFood();
      }  
      
+
     

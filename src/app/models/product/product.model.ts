@@ -8,6 +8,8 @@ export class Producto {
       public descripcion?: string,
       public precio?: number,
       public stock?: number,
+      public cover?: any
+
   )
   { }
 }
